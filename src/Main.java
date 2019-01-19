@@ -39,7 +39,7 @@ public class Main {
         for (int i = 0; i < listOfData.size(); i++) {
             for (int j = 0; j < listOfData.get(i).size(); j++) {
                 if (listOfData.get(i).get(j) != null) {
-                    dataInBytes[i] += Math.pow(2, 3 - j);
+                    dataInBytes[i] += Math.pow(2, listOfData.get(i).size() - 1 - j);
                 }
             }
         }
@@ -49,9 +49,9 @@ public class Main {
         List<String> sublist = new ArrayList<>();
         String[] strings = currentCombinationOfLines.toString().split(" ");
         for (int i = 0; i < listOfData.get(i).size(); i++) {
-            for (int j = 0; j < strings.length; j++) {
-                if (listOfData.get(Integer.parseInt(strings[j])).get(i) != null) {
-                    sublist.add(listOfData.get(Integer.parseInt(strings[j])).get(i));
+            for (String string : strings) {
+                if (listOfData.get(Integer.parseInt(string)).get(i) != null) {
+                    sublist.add(listOfData.get(Integer.parseInt(string)).get(i));
                 }
             }
         }
@@ -62,7 +62,8 @@ public class Main {
         if (currentCombinationOfLines.length() == 0) {
             currentCombinationOfLines.append(index);
         } else {
-            currentCombinationOfLines.append(" " + index);
+            currentCombinationOfLines.append(" ");
+            currentCombinationOfLines.append(index);
         }
         if (currentSumAndXorOfLines == 0) {
             currentSumAndXorOfLines = input[index];
@@ -70,8 +71,9 @@ public class Main {
         for (int i = index + 1; i < input.length; i++) {
             if (((currentSumAndXorOfLines) ^ ((int)input[i])) == ((currentSumAndXorOfLines) + ((int)input[i]))) {
                 currentSumAndXorOfLines += input[i];
-                if (currentSumAndXorOfLines == 0b1111) {
-                    currentCombinationOfLines.append(" " + i);
+                if (currentSumAndXorOfLines == (Math.pow(2, listOfData.get(i).size()) - 1)) {
+                    currentCombinationOfLines.append(" ");
+                    currentCombinationOfLines.append(i);
                     writeToResult();
                 } else {
                     searchCombinations(input, i);
